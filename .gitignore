@@ -19,3 +19,6 @@ crash.log.*
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+#Analyzer Code
+./yahooHockeyAnalyzer/src/*
