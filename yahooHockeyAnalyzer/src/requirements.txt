@@ -1,6 +1,0 @@
-azure-functions
-yahoo-fantasy-api
-requests
-pandas
-numpy
-yahoo-oauth
