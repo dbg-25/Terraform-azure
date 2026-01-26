@@ -13,16 +13,22 @@ provider "azurerm" {
 
 
 variable "networks" {
-  type = object({
+  type = list(object({
     name = string
     cidr = string
-  })
+  }))
 
-  default = {
+  default = [{
     name = "Default"
     cidr = "10.10.10.0/24"
-  }
+  }]
 }
 
 
-resource azurerm_virtual_network
+resource "azurerm_virtual_network" "myNet" {
+    for_each = { for item in var.networks: item.name => item}
+    name = each.value.name
+    address_space = each.value.cidr
+    location = "canada central"
+    resource_group_name = "test-rg"
+}
