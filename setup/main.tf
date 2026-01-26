@@ -12,10 +12,10 @@ terraform {
     }
   }
   backend "azurerm" {
-      resource_group_name   = "stateFilesRG"
-      storage_account_name  = "tfstatestoreaccgnrhoczs"
-      container_name        = "terraformstoragecontainer"
-      key                   = "setup.tfstate"
+    resource_group_name  = "stateFilesRG"
+    storage_account_name = "tfstatestoreaccgnrhoczs"
+    container_name       = "terraformstoragecontainer"
+    key                  = "setup.tfstate"
   }
 }
 
