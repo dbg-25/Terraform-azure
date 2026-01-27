@@ -11,20 +11,29 @@ provider "azurerm" {
   features {}
 }
 
+
 variable "rules" {
   type = list(object({
-    name = my_rules
+    port      = string
+    name      = string
+    direction = string
+    priority  = number # Added priority as it is required for NSGs
+  }))
+
+  default = [
     {
-        port = "80"
-        name = "Allow-HTTP"
-        direction = "inbound"
+      port      = "80"
+      name      = "Allow-HTTP"
+      direction = "Inbound"
+      priority  = 100
     },
     {
-      port = "22"
-      name = "allow-tcp"
-      direction = "outbound"
-  }}))
-
+      port      = "22"
+      name      = "Allow-SSH"
+      direction = "Inbound" # Fixed direction (Outbound for SSH usually doesn't make sense for ingress rules here)
+      priority  = 110
+    }
+  ]
 }
 
 
@@ -33,12 +42,12 @@ resource "azurerm_network_security_group" "MyNSG" {
   location = "Canada Central"
   resource_group_name = "RG1"
 
-  dynamic "rules" {
+  dynamic "security_rules" {
     for_each = var.rules
     content {
-      port = var.rules.port
-      name = var.rules.name
-      direction = var.rules.direction
+      port = security_rules.value.port
+      name = security_rules.value.name
+      direction = security_rules.value.direction
     }
 }
 }
