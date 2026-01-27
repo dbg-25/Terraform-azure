@@ -42,12 +42,12 @@ resource "azurerm_network_security_group" "MyNSG" {
   location = "Canada Central"
   resource_group_name = "RG1"
 
-  dynamic "security_rules" {
+  dynamic "security_rule" {
     for_each = var.rules
     content {
-      port = security_rules.value.port
-      name = security_rules.value.name
-      direction = security_rules.value.direction
+      source_port_range = security_rule.value.port
+      name = security_rule.value.name
+      direction = security_rule.value.direction
     }
 }
 }
