@@ -91,7 +91,7 @@ resource "azurerm_virtual_network" "main" {
     iterator = sub
 
     content {
-      name = sub.Key
+      name = sub.value.Key
       address_prefixes = sub.value.cidr_range
       security_group = sub.value.nsg_id
     }
